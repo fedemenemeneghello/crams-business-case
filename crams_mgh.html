@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Crams — Business Case · MGH Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--cr:#F5F0EB;--cr2:#EDE6DE;--cr3:#E2D8CE;--w:#7D1C2E;--w2:#5C1220;--w3:#3D0B16;--dk:#1A0A0A;--dg:#3D2B2B;--mg:#9C8A8A;--lg:#D8CEC6;--wh:#FFFFFF;--mv:#8C6B7A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--dk)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(26,10,10,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--cr);letter-spacing:.04em}
+.logo b{color:var(--w);font-weight:700}
+#dots{display:flex;gap:6px;align-items:center}
+.d{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.16);cursor:pointer;border:none;transition:all .25s}
+.d.on{background:var(--w);transform:scale(1.35)}
+.nr{display:flex;align-items:center;gap:14px}
+.eb{font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--mg);background:none;border:1px solid rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;cursor:pointer;transition:all .2s}
+.eb.on{color:var(--cr);border-color:var(--w);background:rgba(125,28,46,.2)}
+.nc{font-size:11px;color:rgba(255,255,255,.28);min-width:36px;text-align:right}
+.deck{position:fixed;top:52px;left:0;right:0;bottom:0}
+.sl{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .4s;overflow:hidden auto}
+.sl.on{opacity:1;pointer-events:all}
+[contenteditable="true"]{outline:none;border-radius:2px;box-shadow:0 0 0 1.5px var(--w);background:rgba(125,28,46,.07);cursor:text}
+
+/* S1 COVER */
+#s1{display:grid;grid-template-columns:55% 45%;background:var(--dk)}
+#s1.on{display:grid}
+.s1a{padding:4.5rem 3.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.s1pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:500;letter-spacing:.12em;color:rgba(255,255,255,.45);width:fit-content}
+.s1pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--w);display:inline-block}
+.s1h{font-family:'Playfair Display',serif;font-size:clamp(4rem,8vw,7rem);font-weight:900;color:var(--cr);line-height:.9;margin:2.5rem 0 1.5rem}
+.s1sub{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--mv);font-style:italic;line-height:1.3}
+.s1meta{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem}
+.s1meta p{font-size:12px;color:rgba(255,255,255,.28);line-height:2.3}
+.s1b{background:var(--w2);padding:4.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.s1b::before{content:'';position:absolute;bottom:-100px;right:-100px;width:320px;height:320px;border-radius:50%;background:var(--w3);opacity:.65}
+.s1b::after{content:'';position:absolute;top:-50px;left:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.025)}
+.s1big{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4.5vw,4rem);font-weight:900;color:var(--cr);line-height:1;position:relative;z-index:1}
+.s1tag{font-size:13px;color:var(--cr2);opacity:.65;line-height:2;position:relative;z-index:1}
+.s1br{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.28);position:relative;z-index:1}
+
+/* S2 PROBLEMA */
+#s2{display:grid;grid-template-columns:1fr 1fr;background:var(--cr)}
+.s2a{padding:3.5rem;display:flex;flex-direction:column;justify-content:center}
+.s2lbl{font-size:9.5px;font-weight:500;letter-spacing:.14em;color:var(--w);margin-bottom:2rem}
+.s2st{padding:1.5rem 0;border-bottom:1px solid var(--lg);display:flex;flex-direction:column;gap:5px}
+.s2st:last-child{border-bottom:none}
+.s2n{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,3.5rem);font-weight:900;color:var(--w);line-height:1}
+.s2d{font-size:13px;color:var(--dg);line-height:1.5}
+.s2b{background:var(--dk);padding:3.5rem;display:flex;flex-direction:column;justify-content:center}
+.s2bt{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--cr);margin-bottom:.7rem}
+.s2rl{width:36px;height:2px;background:var(--w);margin-bottom:2rem}
+.s2op{display:flex;flex-direction:column}
+.s2oi{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start}
+.s2oi:last-child{border-bottom:none}
+.s2on{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--w);opacity:.35;line-height:1;flex-shrink:0;width:30px}
+.s2ot{font-size:13px;color:var(--cr2);line-height:1.6;padding-top:3px}
+
+/* S3 DOS PRODUCTOS */
+#s3{display:flex;flex-direction:column;background:var(--cr2)}
+.s3top{padding:2.5rem 3.5rem 1.2rem;display:flex;align-items:baseline;gap:1.2rem}
+.s3h{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:var(--dk);line-height:1}
+.s3h em{color:var(--w);font-style:italic}
+.s3rl{flex:1;height:1px;background:var(--lg);margin-bottom:5px}
+.s3cs{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.s3c{padding:2.5rem 3rem;display:flex;flex-direction:column}
+.s3lo{background:var(--wh);border-right:1px solid var(--lg)}
+.s3cl{background:var(--w2)}
+.s3ct{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.12em;padding:4px 10px;border-radius:20px;margin-bottom:1.2rem;width:fit-content}
+.s3lo .s3ct{background:var(--cr2);color:var(--dg);border:1px solid var(--lg)}
+.s3cl .s3ct{background:rgba(255,255,255,.07);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1)}
+.s3cn{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;margin-bottom:.5rem}
+.s3lo .s3cn{color:var(--dk)} .s3cl .s3cn{color:var(--cr)}
+.s3cd{font-size:13px;line-height:1.6;margin-bottom:1.5rem}
+.s3lo .s3cd{color:var(--mg)} .s3cl .s3cd{color:var(--cr2);opacity:.7}
+.s3pr{height:1px;margin:1rem 0}
+.s3lo .s3pr{background:var(--lg)} .s3cl .s3pr{background:rgba(255,255,255,.1)}
+.s3pl{font-size:9px;letter-spacing:.1em;margin-bottom:4px}
+.s3lo .s3pl{color:var(--mg)} .s3cl .s3pl{color:rgba(255,255,255,.3)}
+.s3pa{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700}
+.s3lo .s3pa{color:var(--w)} .s3cl .s3pa{color:var(--cr)}
+.s3pn{font-size:11px;margin-top:3px}
+.s3lo .s3pn{color:var(--mg)} .s3cl .s3pn{color:rgba(255,255,255,.3)}
+.s3pls{margin-top:1.2rem;display:flex;flex-direction:column;gap:6px}
+.s3pl2{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.s3pln{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cr)}
+.s3plp{font-size:11px;color:rgba(255,255,255,.42)}
+.s3ft{padding:.75rem 3.5rem;font-size:10.5px;color:var(--mg);font-style:italic;border-top:1px solid var(--lg)}
+
+/* S4 PRECIOS */
+#s4{display:flex;flex-direction:column;background:var(--cr)}
+.s4hd{padding:2.5rem 3.5rem 1.2rem}
+.s4ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--dk)}
+.s4sb{font-size:13px;color:var(--mg);font-style:italic;margin-top:4px}
+.s4pl{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;padding:0 2rem 2rem;gap:1rem;align-items:start}
+.pc{border:1px solid var(--lg);padding:1.8rem;position:relative}
+.pc.fe{border-color:var(--w);border-width:2px;margin-top:-10px;padding-top:2.2rem}
+.pcst{background:var(--cr2)} .pcpr{background:var(--w2)} .pcbz{background:var(--dk)}
+.fbadge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--w);color:#fff;font-size:8.5px;font-weight:500;padding:3px 13px;border-radius:20px;letter-spacing:.1em;white-space:nowrap}
+.pcn{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;margin-bottom:3px}
+.pcst .pcn{color:var(--dk)} .pcpr .pcn,.pcbz .pcn{color:var(--cr)}
+.pct{font-size:11px;margin-bottom:1rem}
+.pcst .pct{color:var(--mg)} .pcpr .pct,.pcbz .pct{color:rgba(255,255,255,.45)}
+.pcr{height:1px;margin:.8rem 0}
+.pcst .pcr{background:var(--lg)} .pcpr .pcr{background:rgba(255,255,255,.12)} .pcbz .pcr{background:rgba(255,255,255,.07)}
+.pcl{font-size:8.5px;letter-spacing:.1em;margin-bottom:3px}
+.pcst .pcl{color:var(--mg)} .pcpr .pcl,.pcbz .pcl{color:rgba(255,255,255,.32)}
+.pcsu{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700}
+.pcmo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;margin-top:2px}
+.pcst .pcsu,.pcst .pcmo{color:var(--w)} .pcpr .pcsu,.pcpr .pcmo,.pcbz .pcsu,.pcbz .pcmo{color:var(--cr)}
+.pcte{font-size:11px;font-weight:500;margin:.8rem 0 .4rem}
+.pcst .pcte{color:var(--w)} .pcpr .pcte,.pcbz .pcte{color:var(--cr)}
+.pcfs{display:flex;flex-direction:column;gap:3px}
+.pcf{font-size:11px;padding:3px 0;border-top:1px solid}
+.pcst .pcf{color:var(--dg);border-color:var(--lg)} .pcpr .pcf{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.07)} .pcbz .pcf{color:rgba(255,255,255,.58);border-color:rgba(255,255,255,.05)}
+.pcf::before{content:'— '}
+
+/* S5 VALOR */
+#s5{display:flex;flex-direction:column;background:var(--dk)}
+.s5hd{padding:2.5rem 3.5rem 1rem}
+.s5ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--cr)}
+.s5sb{font-size:13px;color:var(--mg);font-style:italic;margin-top:4px}
+.s5rl{height:1px;background:rgba(255,255,255,.07);margin:0 3.5rem .5rem}
+.s5bd{flex:1;display:grid;grid-template-columns:3fr 2fr;gap:2rem;padding:0 3.5rem 2.5rem}
+.vt{width:100%;border-collapse:collapse}
+.vt th{text-align:left;font-size:9.5px;font-weight:500;letter-spacing:.09em;color:rgba(255,255,255,.28);padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.vt td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12.5px;color:var(--cr2)}
+.vt td:first-child{color:var(--cr);font-weight:500}
+.vt td.hi{color:var(--w);font-family:'Playfair Display',serif;font-weight:700;font-size:14px}
+.vt tr:nth-child(even) td{background:rgba(255,255,255,.018)}
+.cls{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.cl{padding:1.2rem 1.3rem 1.2rem 1.5rem;border-left:3px solid var(--w);background:rgba(255,255,255,.03)}
+.cll{font-size:9px;letter-spacing:.1em;color:var(--mg);margin-bottom:5px}
+.clv{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--w)}
+.cls2{font-size:11px;color:var(--mg);margin-top:4px;line-height:1.5}
+
+/* S6 CONVERSIÓN */
+#s6{display:flex;flex-direction:column;background:var(--cr2)}
+.s6hd{padding:2.5rem 3.5rem 1.2rem;display:flex;align-items:baseline;gap:1.2rem}
+.s6ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--dk)}
+.s6rl{flex:1;height:1px;background:var(--lg);margin-bottom:5px}
+.s6sg{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden}
+.sg{display:flex;flex-direction:column;border-right:1px solid}
+.sg:last-child{border-right:none}
+.sga{background:var(--w2);border-color:var(--w)}
+.sgb{background:var(--wh);border-color:var(--lg)}
+.sgc{background:var(--dk);border-color:rgba(255,255,255,.07)}
+.sgh{padding:1.4rem 1.6rem 1rem;border-bottom:1px solid}
+.sga .sgh{border-color:rgba(255,255,255,.1)} .sgb .sgh{border-color:var(--lg)} .sgc .sgh{border-color:rgba(255,255,255,.07)}
+.sgtr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sgtg{font-size:8.5px;font-weight:500;letter-spacing:.12em;padding:3px 10px;border-radius:20px}
+.sga .sgtg{background:rgba(255,255,255,.09);color:rgba(255,255,255,.55)}
+.sgb .sgtg{background:var(--cr2);color:var(--dg);border:1px solid var(--lg)}
+.sgc .sgtg{background:rgba(255,255,255,.07);color:rgba(255,255,255,.45)}
+.sgbg{font-size:8.5px;font-weight:500;padding:3px 10px;border-radius:20px}
+.sga .sgbg,.sgb .sgbg{background:var(--w);color:#fff} .sgc .sgbg{background:rgba(255,255,255,.1);color:rgba(255,255,255,.55)}
+.sgnm{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;line-height:1.25}
+.sga .sgnm{color:var(--cr)} .sgb .sgnm{color:var(--dk)} .sgc .sgnm{color:var(--cr)}
+.sgbd{padding:.9rem 1.6rem;display:flex;flex-direction:column;flex:1}
+.sgi{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid;font-size:12px;line-height:1.45}
+.sga .sgi{border-color:rgba(255,255,255,.06);color:var(--cr2)} .sgb .sgi{border-color:var(--lg);color:var(--dg)} .sgc .sgi{border-color:rgba(255,255,255,.05);color:rgba(255,255,255,.62)}
+.sgi:last-child{border-bottom:none}
+.sgdt{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.sga .sgdt{background:rgba(255,255,255,.38)} .sgb .sgdt{background:var(--w)} .sgc .sgdt{background:rgba(255,255,255,.22)}
+.sgft{padding:.8rem 1.6rem;font-size:10.5px;font-style:italic;border-top:1px solid}
+.sga .sgft{border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.32)} .sgb .sgft{border-color:var(--lg);color:var(--mg)} .sgc .sgft{border-color:rgba(255,255,255,.06);color:rgba(255,255,255,.28)}
+
+/* S7 PITCH */
+#s7{display:flex;flex-direction:column;background:var(--cr)}
+.s7hd{padding:2.5rem 3.5rem 1.2rem;border-bottom:1px solid var(--lg)}
+.s7ti{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--dk)}
+.s7ti em{color:var(--w);font-style:italic}
+.s7bd{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.pt{display:flex;flex-direction:column;border-right:1px solid var(--lg)}
+.pt:last-child{border-right:none}
+.ptn{background:var(--wh)} .pte{background:var(--w2)}
+.pth{padding:1.2rem 2rem;border-bottom:1px solid}
+.ptn .pth{border-color:var(--lg)} .pte .pth{border-color:rgba(255,255,255,.09)}
+.ptl{font-size:9.5px;font-weight:500;letter-spacing:.12em}
+.ptn .ptl{color:var(--w)} .pte .ptl{color:rgba(255,255,255,.4)}
+.sts{padding:1rem 2rem;display:flex;flex-direction:column;flex:1}
+.st{display:flex;gap:13px;padding:12px 0;border-bottom:1px solid}
+.ptn .st{border-color:var(--lg)} .pte .st{border-color:rgba(255,255,255,.06)}
+.st:last-child{border-bottom:none}
+.sn{width:25px;height:25px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;margin-top:1px}
+.ptn .sn{background:var(--w);color:#fff} .pte .sn{background:var(--cr2);color:var(--w2)}
+.stit{font-size:12px;font-weight:500;margin-bottom:3px}
+.ptn .stit{color:var(--dk)} .pte .stit{color:var(--cr)}
+.stxt{font-size:11.5px;font-style:italic;line-height:1.55;color:var(--mg)}
+.pte .stxt{color:rgba(255,255,255,.42)}
+
+/* S8 OBJECIONES */
+#s8{display:flex;flex-direction:column;background:var(--cr2)}
+.s8hd{padding:2.5rem 3.5rem 1.2rem}
+.s8ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--dk)}
+.s8ti em{color:var(--w);font-style:italic}
+.s8gr{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;border-top:1px solid var(--lg)}
+.oc{padding:1.4rem 2rem;border-right:1px solid var(--lg);border-bottom:1px solid var(--lg);display:flex;flex-direction:column;gap:8px}
+.oc:nth-child(2n){border-right:none}
+.oc:nth-child(5),.oc:nth-child(6){border-bottom:none}
+.oc:nth-child(1),.oc:nth-child(4){background:var(--wh)}
+.oc:nth-child(2),.oc:nth-child(5){background:var(--cr)}
+.oc:nth-child(3),.oc:nth-child(6){background:var(--cr2)}
+.oq{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--w)}
+.oa{font-size:12.5px;color:var(--dg);line-height:1.65}
+
+/* S9 PROYECCIÓN */
+#s9{display:flex;flex-direction:column;background:var(--w2)}
+.s9hd{padding:2.5rem 3.5rem 1.5rem}
+.s9ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--cr)}
+.s9sb{font-size:13px;color:rgba(255,255,255,.33);font-style:italic;margin-top:4px}
+.s9mx{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 3.5rem;margin-bottom:1.5rem}
+.mb{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:1.2rem;border-top:2px solid var(--cr2)}
+.mv{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--cr)}
+.ml{font-size:11px;color:var(--cr2);margin-top:3px;line-height:1.45}
+.mn{font-size:10px;color:rgba(255,255,255,.28);font-style:italic;margin-top:3px}
+.s9bt{flex:1;display:grid;grid-template-columns:3fr 2fr;gap:2rem;padding:0 3.5rem 2.5rem}
+.pt2{width:100%;border-collapse:collapse}
+.pt2 th{font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.28);font-weight:500;text-align:left;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.pt2 td{padding:9px 10px;font-size:12px;color:var(--cr2);border-bottom:1px solid rgba(255,255,255,.04)}
+.pt2 td:first-child{color:var(--cr)}
+.pt2 td.wt{color:var(--cr2);font-family:'Playfair Display',serif;font-weight:700}
+.ins{display:flex;flex-direction:column;gap:8px;justify-content:center}
+.in{padding:.9rem 1rem .9rem 1.2rem;border-left:2px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);font-size:12px;color:var(--cr2);line-height:1.55}
+
+/* S10 HOJA DE RUTA */
+#s10{display:flex;flex-direction:column;background:var(--dk)}
+.s10hd{padding:2.5rem 3.5rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.s10ti{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--cr)}
+.s10sb{font-size:13px;color:var(--mg);font-style:italic;margin-top:4px}
+.s10ph{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden}
+.ph{display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06)}
+.ph:last-child{border-right:none}
+.ph1{background:rgba(255,255,255,.02)} .ph2{background:var(--w3)} .ph3{background:rgba(125,28,46,.15)}
+.phtop{padding:1.8rem 2rem 1.3rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.phnr{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.phnum{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:1;opacity:.22;color:var(--cr)}
+.phti{font-size:10px;color:rgba(255,255,255,.28)}
+.phnm{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr)}
+.phbd{padding:1.2rem 2rem;display:flex;flex-direction:column;flex:1}
+.phi{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12.5px;color:rgba(255,255,255,.58);line-height:1.45}
+.phi:last-child{border-bottom:none}
+.phd{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.ph1 .phd{background:var(--w)} .ph2 .phd,.ph3 .phd{background:rgba(255,255,255,.28)}
+
+/* S11 RIESGOS */
+#s11{display:grid;grid-template-columns:1fr 1fr;background:var(--cr)}
+#s11.on{display:grid}
+.s11a{padding:3.5rem;border-right:1px solid var(--lg)}
+.s11b{padding:3.5rem;background:var(--dk)}
+.s11cl{font-size:9px;font-weight:500;letter-spacing:.14em;margin-bottom:1.5rem}
+.s11a .s11cl{color:var(--w)} .s11b .s11cl{color:rgba(255,255,255,.28)}
+.s11h{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;margin-bottom:2rem}
+.s11a .s11h{color:var(--dk)} .s11b .s11h{color:var(--cr)}
+.ri{padding:1.1rem 1.1rem 1.1rem 1.4rem;border-left:3px solid;margin-bottom:10px}
+.s11a .ri{background:var(--wh);border-color:var(--w)}
+.s11b .ri{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18)}
+.rit{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:5px}
+.s11a .rit{color:var(--w)} .s11b .rit{color:var(--cr)}
+.rib{font-size:12px;line-height:1.6}
+.s11a .rib{color:var(--dg)} .s11b .rib{color:rgba(255,255,255,.48)}
+
+/* S12 CIERRE */
+#s12{display:grid;grid-template-columns:1fr 1fr;background:var(--dk)}
+#s12.on{display:grid}
+.s12a{background:var(--w2);padding:4.5rem 3.5rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.s12a::before{content:'';position:absolute;bottom:-120px;right:-120px;width:380px;height:380px;border-radius:50%;background:var(--w3);opacity:.7}
+.s12hl{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:900;color:var(--cr);line-height:.9;position:relative;z-index:1}
+.s12sb{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);color:var(--cr2);font-style:italic;line-height:1.1;position:relative;z-index:1;margin-top:1.2rem}
+.s12br{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.23);position:relative;z-index:1}
+.s12b{background:var(--cr);padding:4.5rem 3.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.s12lb{font-size:10px;font-weight:500;letter-spacing:.1em;color:var(--dk);margin-bottom:1rem}
+.s12rl{height:1px;background:var(--lg);margin-bottom:1.8rem}
+.s12ps{display:flex;flex-direction:column;flex:1}
+.s12p{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--lg);font-size:13.5px;color:var(--dg);line-height:1.5;align-items:flex-start}
+.s12p:last-child{border-bottom:none}
+.s12pd{width:8px;height:8px;border-radius:50%;background:var(--w);flex-shrink:0;margin-top:5px}
+.s12cw{border-top:1px solid var(--lg);padding-top:1.5rem}
+.s12ct{display:inline-block;background:var(--w);color:#fff;font-size:13px;font-weight:500;padding:13px 26px;border-radius:30px;border:none;cursor:pointer;letter-spacing:.02em}
+.s12nt{font-size:11px;color:var(--mg);font-style:italic;margin-top:9px;line-height:1.5}
+
+/* ARROWS */
+.arrows{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:300}
+.ar{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(26,10,10,.82);backdrop-filter:blur(8px);color:var(--cr2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ar:hover{background:var(--w);border-color:var(--w);color:#fff}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">MGH <b>Systems</b></div>
+  <div id="dots"></div>
+  <div class="nr">
+    <button class="eb" id="eb" onclick="te()">✎ Editar</button>
+    <span class="nc" id="nc">1/12</span>
+  </div>
+</nav>
+<div class="deck">
+
+<!-- S1 COVER -->
+<section class="sl on" id="s1">
+  <div class="s1a">
+    <div>
+      <div class="s1pill">BUSINESS CASE · 2026</div>
+      <h1 class="s1h e">Digital<br>Crams</h1>
+      <p class="s1sub e">Nuevo Modelo<br>de Software</p>
+    </div>
+    <div class="s1meta">
+      <p class="e">Crams Local v2  ·  Crams Cloud</p>
+      <p class="e">Preparado por MGH Systems  ·  Mayo 2026</p>
+    </div>
+  </div>
+  <div class="s1b">
+    <p class="s1big e">De la<br>idea al<br>deploy.</p>
+    <div>
+      <p class="s1tag e">Software que escala.<br>Clientes que pagan cada mes.<br>El activo ya existe.</p>
+      <p class="s1br" style="margin-top:1.5rem">MGH Systems</p>
+    </div>
+  </div>
+</section>
+
+<!-- S2 PROBLEMA -->
+<section class="sl" id="s2">
+  <div class="s2a">
+    <p class="s2lbl">EL MODELO HOY</p>
+    <div class="s2st"><div class="s2n e">$300.000</div><div class="s2d e">ARS pago único por licencia — sin recurrencia</div></div>
+    <div class="s2st"><div class="s2n e">800–900</div><div class="s2d e">clientes instalados generando $0 por mes</div></div>
+    <div class="s2st"><div class="s2n e">Solo 6</div><div class="s2d e">clientes pagan mensual hoy — no está escalado</div></div>
+    <div class="s2st"><div class="s2n e">$0</div><div class="s2d e">MRR actual — ingresos completamente impredecibles</div></div>
+  </div>
+  <div class="s2b">
+    <h2 class="s2bt">La oportunidad</h2>
+    <div class="s2rl"></div>
+    <div class="s2op">
+      <div class="s2oi"><div class="s2on">01</div><p class="s2ot e">40 años de reputación local insustituible</p></div>
+      <div class="s2oi"><div class="s2on">02</div><p class="s2ot e">800–900 clientes que ya confían en Digital Crams</p></div>
+      <div class="s2oi"><div class="s2on">03</div><p class="s2ot e">Nuevo software ya en desarrollo avanzado</p></div>
+      <div class="s2oi"><div class="s2on">04</div><p class="s2ot e">Relación directa con cada cliente instalado</p></div>
+      <div class="s2oi"><div class="s2on">05</div><p class="s2ot e">Adobe lo hizo con CC en 2013 — ×5 ingresos en 4 años</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 DOS PRODUCTOS -->
+<section class="sl" id="s3">
+  <div class="s3top"><h2 class="s3h">Dos productos. <em>Dos modelos.</em></h2><div class="s3rl"></div></div>
+  <div class="s3cs">
+    <div class="s3c s3lo">
+      <span class="s3ct">LICENCIA PERPETUA</span>
+      <h3 class="s3cn e">Crams Local v2</h3>
+      <p class="s3cd e">Para quien quiere pagar una vez y ser dueño del sistema. Software reescrito desde cero, UI moderna, ARCA actualizado.</p>
+      <div class="s3pr"></div>
+      <p class="s3pl">NUEVO CLIENTE</p>
+      <p class="s3pa e">$550.000 + IVA</p>
+      <p class="s3pn e">pago único · instalación + capacitación incluidas</p>
+      <div class="s3pr" style="margin-top:1.2rem"></div>
+      <p class="s3pl">UPGRADE (CLIENTE EXISTENTE)</p>
+      <p class="s3pa e">$250.000 + IVA</p>
+      <p class="s3pn e">precio especial · migración de datos incluida</p>
+      <div class="s3pr" style="margin-top:1.2rem"></div>
+      <p class="s3pl">ADD-ON: SOPORTE ANUAL</p>
+      <p class="s3pa e">$120.000 + IVA</p>
+      <p class="s3pn e">actualizaciones impositivas + soporte + 1 visita presencial</p>
+    </div>
+    <div class="s3c s3cl">
+      <span class="s3ct">SUSCRIPCIÓN MENSUAL</span>
+      <h3 class="s3cn e">Crams Cloud</h3>
+      <p class="s3cd e">Para quien quiere el negocio siempre actualizado, accesible desde cualquier dispositivo, sin sorpresas por ARCA.</p>
+      <div class="s3pr"></div>
+      <p class="s3pl">ESTRUCTURA: SETUP + CUOTA MENSUAL</p>
+      <div class="s3pls">
+        <div class="s3pl2"><span class="s3pln">Starter</span><span class="s3plp e">$120K setup · $22.000/mes</span></div>
+        <div class="s3pl2"><span class="s3pln">Pro</span><span class="s3plp e">$220K setup · $35.000/mes</span></div>
+        <div class="s3pl2"><span class="s3pln">Business</span><span class="s3plp e">$380K setup · $58.000/mes</span></div>
+      </div>
+      <div class="s3pr" style="margin-top:1.5rem"></div>
+      <p class="s3pl">POR QUÉ EXISTE EL SETUP</p>
+      <p class="s3pn e" style="font-size:12px;margin-top:6px;opacity:.8">Refleja trabajo real · filtra clientes comprometidos · ancla al cliente · cubre el costo de adquisición desde el día 1</p>
+    </div>
+  </div>
+  <div class="s3ft">El Cloud no es la licencia en cuotas — acceso web, actualizaciones automáticas, backup y soporte continuo incluidos.</div>
+</section>
+
+<!-- S4 PRECIOS CLOUD -->
+<section class="sl" id="s4">
+  <div class="s4hd"><h2 class="s4ti">Crams Cloud — Planes</h2><p class="s4sb">Setup único + suscripción mensual · actualizaciones automáticas incluidas en todos los planes</p></div>
+  <div class="s4pl">
+    <div class="pc pcst">
+      <h3 class="pcn e">Starter</h3><p class="pct e">Kiosco, almacén, local chico</p>
+      <div class="pcr"></div><p class="pcl">SETUP ÚNICO</p><p class="pcsu e">$120.000 + IVA</p>
+      <p class="pcl" style="margin-top:8px">MENSUAL</p><p class="pcmo e">$22.000 + IVA</p>
+      <div class="pcr" style="margin-top:10px"></div><p class="pcte e">1 terminal</p>
+      <div class="pcfs"><p class="pcf e">Facturación electrónica</p><p class="pcf e">Control de stock</p><p class="pcf e">Acceso web</p><p class="pcf e">Actualizaciones auto</p><p class="pcf e">Soporte remoto</p></div>
+    </div>
+    <div class="pc pcpr fe">
+      <div class="fbadge">MÁS ELEGIDO</div>
+      <h3 class="pcn e">Pro</h3><p class="pct e">Ferretería, farmacia, indumentaria</p>
+      <div class="pcr"></div><p class="pcl">SETUP ÚNICO</p><p class="pcsu e">$220.000 + IVA</p>
+      <p class="pcl" style="margin-top:8px">MENSUAL</p><p class="pcmo e">$35.000 + IVA</p>
+      <div class="pcr" style="margin-top:10px"></div><p class="pcte e">Hasta 3 terminales</p>
+      <div class="pcfs"><p class="pcf e">Todo Starter +</p><p class="pcf e">Cuentas corrientes</p><p class="pcf e">Reportes avanzados</p><p class="pcf e">Migración datos completa</p><p class="pcf e">1 visita presencial/año</p></div>
+    </div>
+    <div class="pc pcbz">
+      <h3 class="pcn e">Business</h3><p class="pct e">Multi-sucursal, volumen alto</p>
+      <div class="pcr"></div><p class="pcl">SETUP ÚNICO</p><p class="pcsu e">$380.000 + IVA</p>
+      <p class="pcl" style="margin-top:8px">MENSUAL</p><p class="pcmo e">$58.000 + IVA</p>
+      <div class="pcr" style="margin-top:10px"></div><p class="pcte e">Terminales ilimitadas</p>
+      <div class="pcfs"><p class="pcf e">Todo Pro +</p><p class="pcf e">Multi-sucursal</p><p class="pcf e">SLA garantizado</p><p class="pcf e">Soporte presencial</p><p class="pcf e">Onboarding a medida</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 VALOR EN EL TIEMPO -->
+<section class="sl" id="s5">
+  <div class="s5hd"><h2 class="s5ti">¿Cuánto vale cada cliente en el tiempo?</h2><p class="s5sb">Ingresos acumulados por producto — miles de ARS</p></div>
+  <div class="s5rl"></div>
+  <div class="s5bd">
+    <table class="vt">
+      <thead><tr><th>Producto</th><th>Año 1</th><th>Año 2</th><th>Año 3</th></tr></thead>
+      <tbody>
+        <tr><td>Local v2 solo</td><td>$550K</td><td>$550K</td><td>$550K</td></tr>
+        <tr><td>Local v2 + soporte anual</td><td>$670K</td><td>$670K</td><td>$670K</td></tr>
+        <tr><td>Cloud Starter</td><td>$384K</td><td>$648K</td><td class="hi">$912K</td></tr>
+        <tr><td>Cloud Pro</td><td>$640K</td><td>$1.06M</td><td class="hi">$1.48M</td></tr>
+        <tr><td>Cloud Business</td><td>$1.08M</td><td>$1.77M</td><td class="hi">$2.47M</td></tr>
+      </tbody>
+    </table>
+    <div class="cls">
+      <div class="cl"><p class="cll">MES 19 EN ADELANTE</p><p class="clv e">Puro margen</p><p class="cls2">Cloud Pro · sin ninguna venta nueva · solo la cuota</p></div>
+      <div class="cl"><p class="cll">AÑO 3 · CLOUD PRO</p><p class="clv e">$1.48M ARS</p><p class="cls2">vs $550K de licencia — 2.7× más por el mismo cliente</p></div>
+      <div class="cl"><p class="cll">AÑO 1 · CLOUD PRO</p><p class="clv e">Similar a licencia</p><p class="cls2">elimina la fricción inicial — el argumento de venta clave</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S6 CONVERSIÓN -->
+<section class="sl" id="s6">
+  <div class="s6hd"><h2 class="s6ti">Cómo convertir los 800 clientes.</h2><div class="s6rl"></div></div>
+  <div class="s6sg">
+    <div class="sg sga">
+      <div class="sgh"><div class="sgtr"><span class="sgtg">SEGMENTO A</span><span class="sgbg">Inmediato</span></div><h3 class="sgnm e">Los 6 que ya pagan mensual</h3></div>
+      <div class="sgbd">
+        <div class="sgi"><div class="sgdt"></div><span class="e">Beta testers VIP del nuevo Cloud</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Precio congelado 12 meses por feedback real</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Convertirlos en casos de éxito para el resto</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Entender POR QUÉ llegaron al modelo mensual</span></div>
+      </div>
+      <div class="sgft e">Son la prueba de concepto. El guión para escalar.</div>
+    </div>
+    <div class="sg sgb">
+      <div class="sgh"><div class="sgtr"><span class="sgtg">SEGMENTO B</span><span class="sgbg">Alta prioridad</span></div><h3 class="sgnm e">Licencia antigua (5+ años)</h3></div>
+      <div class="sgbd">
+        <div class="sgi"><div class="sgdt"></div><span class="e">Software obsoleto para ARCA actual</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Oferta A: Upgrade $250K precio histórico</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Oferta B: Cloud Pro con 30% desc. año 1</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Script de llamado del padre — relación 1 a 1</span></div>
+      </div>
+      <div class="sgft e">Mayor volumen. Mejor ROI por cliente recuperado.</div>
+    </div>
+    <div class="sg sgc">
+      <div class="sgh"><div class="sgtr"><span class="sgtg">SEGMENTO C</span><span class="sgbg">Mediano plazo</span></div><h3 class="sgnm e">Licencia reciente (-2 años)</h3></div>
+      <div class="sgbd">
+        <div class="sgi"><div class="sgdt"></div><span class="e">Funciones cloud que el local no puede dar</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Setup reducido por ser cliente reciente</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Acceso desde celular como diferencial clave</span></div>
+        <div class="sgi"><div class="sgdt"></div><span class="e">Foco en comercios con más de 1 empleado</span></div>
+      </div>
+      <div class="sgft e">Menor urgencia, mayor receptividad al Cloud.</div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 PITCH -->
+<section class="sl" id="s7">
+  <div class="s7hd"><h2 class="s7ti">El pitch. <em>Cómo hablarle a cada cliente.</em></h2></div>
+  <div class="s7bd">
+    <div class="pt ptn">
+      <div class="pth"><p class="ptl">CLIENTE NUEVO — sin sistema previo</p></div>
+      <div class="sts">
+        <div class="st"><div class="sn">1</div><div><p class="stit e">Empezar por el dolor</p><p class="stxt e">"¿Cómo sabés qué productos están por agotarse? ¿Si un empleado vende algo mientras no estás, cómo te enterás?"</p></div></div>
+        <div class="st"><div class="sn">2</div><div><p class="stit e">Demo en su rubro</p><p class="stxt e">Mostrar el sistema en un negocio similar. Kiosco, ferretería, gastronomía — que el cliente se vea adentro.</p></div></div>
+        <div class="st"><div class="sn">3</div><div><p class="stit e">Dos opciones sin presionar</p><p class="stxt e">"Tenés licencia única o mensual con cloud. ¿Cuál se adapta a cómo manejás las cosas?"</p></div></div>
+        <div class="st"><div class="sn">4</div><div><p class="stit e">Cerrar con precio diario</p><p class="stxt e">"El Pro son $35K/mes — menos de $1.200 por día. Si controlás un faltante de stock, ya se pagó."</p></div></div>
+      </div>
+    </div>
+    <div class="pt pte">
+      <div class="pth"><p class="ptl">CLIENTE EXISTENTE — tiene la licencia vieja</p></div>
+      <div class="sts">
+        <div class="st"><div class="sn">1</div><div><p class="stit e">Validar, no contradecir</p><p class="stxt e">"Exacto, esa licencia es tuya. Pero fue diseñada para la facturación de hace 5 años."</p></div></div>
+        <div class="st"><div class="sn">2</div><div><p class="stit e">Activar el dolor de ARCA</p><p class="stxt e">"¿Cuántas veces te cobramos actualizaciones? Con el nuevo sistema eso no pasa más."</p></div></div>
+        <div class="st"><div class="sn">3</div><div><p class="stit e">Dos ofertas concretas</p><p class="stxt e">"Upgrade $250K precio especial o Cloud Pro con 30% desc. año 1. ¿Cuál te mando?"</p></div></div>
+        <div class="st"><div class="sn">4</div><div><p class="stit e">No cerrar ese día</p><p class="stxt e">"Te mando info por WhatsApp. Esta semana hacemos una demo rápida, sin compromiso."</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 OBJECIONES -->
+<section class="sl" id="s8">
+  <div class="s8hd"><h2 class="s8ti">Objeciones. <em>Cómo responderlas.</em></h2></div>
+  <div class="s8gr">
+    <div class="oc"><p class="oq e">"Yo ya pagué"</p><p class="oa e">"Tu licencia es tuya. Pero fue diseñada para hace 5 años. ¿Cuánto te costaron las actualizaciones desde entonces?"</p></div>
+    <div class="oc"><p class="oq e">"No quiero pagar mensual"</p><p class="oa e">"Por eso también tenés la licencia nueva. Pero el Cloud da acceso web, backup y nunca más pagás por ARCA."</p></div>
+    <div class="oc"><p class="oq e">"Es caro"</p><p class="oa e">"$35.000/mes son $1.200 por día. Si controlás un faltante de stock, se paga solo en la primera semana."</p></div>
+    <div class="oc"><p class="oq e">"Otro sistema es más barato"</p><p class="oa e">"¿Tienen soporte local? Nosotros estamos a 20 minutos. Si el sistema falla un sábado, ¿quién te atiende?"</p></div>
+    <div class="oc"><p class="oq e">"Lo voy a pensar"</p><p class="oa e">"¿Qué te genera más duda? Si es el precio, te armo una comparativa de actualizaciones vs. abono mensual."</p></div>
+    <div class="oc"><p class="oq e">"No entiendo de tecnología"</p><p class="oa e">"Por eso instalamos y capacitamos nosotros. Cuando nos vamos ya está funcionando, igual que tu sistema actual."</p></div>
+  </div>
+</section>
+
+<!-- S9 PROYECCIÓN -->
+<section class="sl" id="s9">
+  <div class="s9hd"><h2 class="s9ti">Proyección a 12 meses.</h2><p class="s9sb">Escenario conservador</p></div>
+  <div class="s9mx">
+    <div class="mb"><p class="mv e">120</p><p class="ml">upgrades Local v2</p><p class="mn">15% de la base existente</p></div>
+    <div class="mb"><p class="mv e">$30M</p><p class="ml">ARS caja inmediata</p><p class="mn">por upgrades de licencia</p></div>
+    <div class="mb"><p class="mv e">80+</p><p class="ml">clientes en Cloud</p><p class="mn">base + nuevos captados</p></div>
+    <div class="mb"><p class="mv e">$2.4M</p><p class="ml">ARS/mes MRR mes 12</p><p class="mn">ingreso recurrente</p></div>
+  </div>
+  <div class="s9bt">
+    <table class="pt2">
+      <thead><tr><th>Fuente</th><th>Cant.</th><th>Precio</th><th>Total ARS</th></tr></thead>
+      <tbody>
+        <tr><td>Upgrades licencia (base)</td><td>120</td><td>$250K</td><td class="wt">$30.000.000</td></tr>
+        <tr><td>Licencias nuevas</td><td>30</td><td>$550K</td><td class="wt">$16.500.000</td></tr>
+        <tr><td>Setup fees Cloud</td><td>80</td><td>~$190K</td><td class="wt">$15.200.000</td></tr>
+        <tr><td>Soporte anual Local</td><td>60</td><td>$120K</td><td class="wt">$7.200.000</td></tr>
+        <tr><td>MRR Cloud mes 12</td><td>80 subs</td><td>~$30K</td><td class="wt">$2.400.000/mes</td></tr>
+      </tbody>
+    </table>
+    <div class="ins">
+      <div class="in e">La caja de upgrades financia la infraestructura cloud desde el día 1</div>
+      <div class="in e">El MRR crece con cada suscriptor sin vender de nuevo</div>
+      <div class="in e">Ajuste cuatrimestral por inflación protege el valor real</div>
+      <div class="in e">Break-even del Cloud: mes 18 si el local financia la infra</div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 HOJA DE RUTA -->
+<section class="sl" id="s10">
+  <div class="s10hd"><h2 class="s10ti">Hoja de ruta.</h2><p class="s10sb">Las tres fases para transformar el modelo</p></div>
+  <div class="s10ph">
+    <div class="ph ph1">
+      <div class="phtop"><div class="phnr"><span class="phnum">01</span><span class="phti">Meses 1–3</span></div><h3 class="phnm e">Monetizar la base</h3></div>
+      <div class="phbd">
+        <div class="phi"><div class="phd"></div><span class="e">Investigar los 6 que pagan mensual: ¿por qué llegaron al modelo?</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Beta privada con 20–30 clientes fieles del nuevo sistema</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Definir precios finales tras el feedback real</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Crear demos por rubro: kiosco, ferretería, gastronomía</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Script de llamado para upgrades de la base existente</span></div>
+      </div>
+    </div>
+    <div class="ph ph2">
+      <div class="phtop"><div class="phnr"><span class="phnum">02</span><span class="phti">Meses 3–9</span></div><h3 class="phnm e">Lanzar el nuevo software</h3></div>
+      <div class="phbd">
+        <div class="phi"><div class="phd"></div><span class="e">Lanzamiento de Crams Local v2 con campaña de upgrades</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Lanzamiento de Crams Cloud con landing diferenciada</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Primer mes gratis para migrantes de la beta</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">CRM básico para seguimiento de leads y renovaciones</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Proceso de onboarding documentado con tiempos</span></div>
+      </div>
+    </div>
+    <div class="ph ph3">
+      <div class="phtop"><div class="phnr"><span class="phnum">03</span><span class="phti">Meses 9+</span></div><h3 class="phnm e">Escalar y retener</h3></div>
+      <div class="phbd">
+        <div class="phi"><div class="phd"></div><span class="e">Referidos: 1 mes gratis por cliente nuevo recomendado</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Módulos add-on: e-commerce, reportes, móvil</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Dashboard interno: MRR, churn, LTV por segmento</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Expansión geográfica fuera del área actual</span></div>
+        <div class="phi"><div class="phd"></div><span class="e">Cláusula de ajuste cuatrimestral en todos los contratos</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S11 RIESGOS -->
+<section class="sl" id="s11">
+  <div class="s11a">
+    <p class="s11cl">RIESGOS</p>
+    <h2 class="s11h">Lo que puede salir mal.</h2>
+    <div class="ri"><p class="rit e">Resistencia al modelo mensual</p><p class="rib e">Ofrecer la transición como optativa 12 meses. El nuevo software viene solo con suscripción — el mercado se mueve solo.</p></div>
+    <div class="ri"><p class="rit e">Churn si el producto no está pulido</p><p class="rib e">Beta privada cerrada antes del lanzamiento masivo. Un cliente que cancela en el mes 2 es peor que uno que no se sumó.</p></div>
+    <div class="ri"><p class="rit e">Inflación erosiona precios ARS</p><p class="rib e">Cláusula de ajuste cuatrimestral en contratos Cloud. Comunicarlo como "precio que acompaña el mercado".</p></div>
+    <div class="ri"><p class="rit e">Competencia SaaS nacional</p><p class="rib e">Ningún SaaS puede enviar a alguien al local en 20 minutos. La presencia física es el moat que no se compra.</p></div>
+  </div>
+  <div class="s11b">
+    <p class="s11cl">VENTAJAS DEFENSIVAS</p>
+    <h2 class="s11h">Lo que nadie puede copiar.</h2>
+    <div class="ri"><p class="rit e">40 años de reputación local</p><p class="rib e">La confianza acumulada no se compra ni replica. Es el diferencial más difícil de atacar.</p></div>
+    <div class="ri"><p class="rit e">Datos del cliente atrapados</p><p class="rib e">3+ años de stock, clientes y facturas en el sistema. El costo de cambiar sube con cada año de uso.</p></div>
+    <div class="ri"><p class="rit e">Soporte presencial a 20 minutos</p><p class="rib e">En el día de más ventas, si el sistema falla, la respuesta local vale todo. Ningún SaaS puede ofrecer esto.</p></div>
+    <div class="ri"><p class="rit e">Hardware + software integrado</p><p class="rib e">Venden el software Y el hardware. La solución integral con una sola llamada de soporte es un argumento único.</p></div>
+  </div>
+</section>
+
+<!-- S12 CIERRE -->
+<section class="sl" id="s12">
+  <div class="s12a">
+    <div>
+      <p class="s12hl e">El activo<br>ya existe.</p>
+      <p class="s12sb e">Solo hay que<br>monetizarlo.</p>
+    </div>
+    <p class="s12br">MGH Systems</p>
+  </div>
+  <div class="s12b">
+    <div>
+      <p class="s12lb">EN RESUMEN</p>
+      <div class="s12rl"></div>
+      <div class="s12ps">
+        <div class="s12p"><div class="s12pd"></div><span class="e">800–900 clientes que ya confían en Digital Crams</span></div>
+        <div class="s12p"><div class="s12pd"></div><span class="e">Software nuevo ya avanzado — el timing es ahora</span></div>
+        <div class="s12p"><div class="s12pd"></div><span class="e">Dos productos que se complementan en flujo de caja</span></div>
+        <div class="s12p"><div class="s12pd"></div><span class="e">Un modelo que crece cada mes sin vender de nuevo</span></div>
+        <div class="s12p"><div class="s12pd"></div><span class="e">La relación local es el moat que nadie puede copiar</span></div>
+      </div>
+    </div>
+    <div class="s12cw">
+      <button class="s12ct">Arrancar Fase 1 esta semana →</button>
+      <p class="s12nt e">Llamar a los 6 clientes que ya pagan mensual.<br>Entender por qué. Ese es el primer paso.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<div class="arrows"><button class="ar" onclick="go(c-1)">←</button><button class="ar" onclick="go(c+1)">→</button></div>
+
+<script>
+const N=12;let c=1,ed=false;
+const dc=document.getElementById('dots');
+for(let i=1;i<=N;i++){const b=document.createElement('button');b.className='d'+(i===1?' on':'');b.onclick=()=>go(i);dc.appendChild(b)}
+function go(n){if(n<1||n>N)return;document.querySelector('#s'+c).classList.remove('on');document.querySelectorAll('.d')[c-1].classList.remove('on');c=n;document.querySelector('#s'+c).classList.add('on');document.querySelectorAll('.d')[c-1].classList.add('on');document.getElementById('nc').textContent=c+'/'+N;window.scrollTo(0,0)}
+function te(){ed=!ed;const btn=document.getElementById('eb');document.querySelectorAll('.e').forEach(el=>{if(ed)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable')});btn.classList.toggle('on',ed);btn.textContent=ed?'✓ Listo':'✎ Editar'}
+document.addEventListener('keydown',e=>{if(ed)return;if(e.key==='ArrowRight'||e.key==='ArrowDown')go(c+1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(c-1)})
+</script>
+</body>
+</html>
